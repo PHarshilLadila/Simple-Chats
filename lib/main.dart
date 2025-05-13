@@ -38,6 +38,8 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
+/// This is the main application widget.
+
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
