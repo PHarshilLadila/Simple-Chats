@@ -9,6 +9,7 @@ import 'package:chat_app_bloc/App%20Functionality/Splash%20Screen/view/splash_sc
 import 'package:chat_app_bloc/Constent/app_color.dart';
 import 'package:chat_app_bloc/Service/analytics_service.dart';
 import 'package:chat_app_bloc/Service/firebase_api.dart';
+import 'package:chat_app_bloc/socketandbloc/bloc/socket_chat_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -68,6 +69,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider<ProfileBloc>(
           create: (_) => ProfileBloc(),
+        ),
+        BlocProvider<SocketChatBloc>(
+          create: (_) => SocketChatBloc(userId: ""),
         ),
         BlocProvider<ChatScreenBloc>(
           create: (context) => ChatScreenBloc(

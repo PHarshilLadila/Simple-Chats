@@ -4,6 +4,7 @@ import 'package:chat_app_bloc/App%20Functionality/Search%20User/bloc/searching_u
 import 'package:chat_app_bloc/App%20Functionality/Search%20User/bloc/searching_user_event.dart';
 import 'package:chat_app_bloc/App%20Functionality/Search%20User/bloc/searching_user_state.dart';
 import 'package:chat_app_bloc/Service/analytics_service.dart';
+import 'package:chat_app_bloc/socketandbloc/socket_message_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class _SearchingUserScreenState extends State<SearchingUserScreen> {
     setState(() {
       isSelected = value;
       String toggleState = isSelected.toString();
-      services.logSearchBarToggle(toggleState); // Log event with string
+      services.logSearchBarToggle(toggleState); 
     });
   }
 
@@ -68,6 +69,22 @@ class _SearchingUserScreenState extends State<SearchingUserScreen> {
             style: GoogleFonts.poppins(
                 fontSize: 22, color: Colors.white, fontWeight: FontWeight.w600),
           ),
+          actions: [
+            IconButton(
+              icon: const FaIcon(
+                FontAwesomeIcons.solidMessage,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SocketMessagePage(),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
