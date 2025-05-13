@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "406869468504",
+    "project_id": "chat-app-bloc-d05a0",
+    "storage_bucket": "chat-app-bloc-d05a0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406869468504:android:3915c333958823d5bf712d",
+        "android_client_info": {
+          "package_name": "com.example.chat_app_bloc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9euhhLEKWWL92BqVo25h5kZwBhVpSw04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
