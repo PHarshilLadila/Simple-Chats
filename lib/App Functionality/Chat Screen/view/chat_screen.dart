@@ -2,9 +2,11 @@
 
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/bloc/chat_screen_bloc.dart';
 import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/bloc/chat_screen_events.dart';
 import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/bloc/chat_screen_state.dart';
+import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/helper/call_service.dart';
 import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/view/all_images.dart';
 import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/view/image_view.dart';
 import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/view/searched_user_details.dart';
@@ -24,7 +26,7 @@ class ChatScreen extends StatefulWidget {
   final String? receiverName;
   final String? senderUid;
   final String? receiverUid;
-  final String? useremail;
+  final String? userEmail;
   final String? mobileNumber;
   final String? receiverFCM;
   final String? profileImage;
@@ -37,7 +39,7 @@ class ChatScreen extends StatefulWidget {
       this.receiverName,
       this.senderUid,
       this.receiverUid,
-      this.useremail,
+      this.userEmail,
       this.mobileNumber,
       this.receiverFCM,
       this.profileImage});
@@ -52,6 +54,10 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final ScrollController _scrollController = ScrollController();
 
 late final File cameraFile;
+String generateCallID(String userA, String userB) {
+  final ids = [userA, userB]..sort();
+  return ids.join("_");
+}
 
 void _showModal(BuildContext context) {
   showModalBottomSheet<void>(
@@ -216,6 +222,13 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+    // ZegoService.init(widget.senderUid!, widget.senderName!);
+  }
+
+  @override
+  void dispose() {
+    // ZegoService.uninit();
+    super.dispose();
   }
 
   @override
@@ -247,7 +260,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     userMobile: widget.mobileNumber,
                     userProfile: widget.profileImage,
                     username: widget.receiverName,
-                    userEmail: widget.useremail,
+                    userEmail: widget.userEmail,
                   ),
                 ),
               );
@@ -310,6 +323,45 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           actions: [
+            IconButton.filled(
+              onPressed: () async {
+                try {
+                  if (!ZegoService.initialized) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text(
+                              "Call service not ready. Please try again.")),
+                    );
+                    return;
+                  }
+
+                  await ZegoService.sendCallInvitation(
+                    senderUid: widget.senderUid!,
+                    receiverUid: widget.receiverUid!,
+                    receiverName: widget.receiverName!,
+                    isVideoCall: true,
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text("Failed to start call: ${e.toString()}")),
+                  );
+                  debugPrint("Call initiation error: $e");
+                }
+              },
+              icon: Icon(Icons.videocam),
+            ),
+            IconButton.filled(
+              onPressed: () async {
+                await ZegoService.sendCallInvitation(
+                  senderUid: widget.senderUid!,
+                  receiverUid: widget.receiverUid!,
+                  receiverName: widget.receiverName!,
+                  isVideoCall: false,
+                );
+              },
+              icon: const Icon(Icons.call),
+            ),
             PopupMenuButton(
               color: AppColor.backgroundColor,
               menuPadding: const EdgeInsets.all(4),

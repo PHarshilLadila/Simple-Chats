@@ -1,3 +1,4 @@
+import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/helper/call_service.dart';
 import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/view/chat_screen.dart';
 import 'package:chat_app_bloc/Service/auth_service.dart';
 import 'package:chat_app_bloc/App%20Functionality/Auth/bloc/authentication_event.dart';
@@ -42,6 +43,10 @@ class AuthenticationBloc
         'profile': event.profileimg,
         'fcmToken': prefs.getString('fcmToken'), //
       });
+
+      await ZegoService.updateUser(user.id ?? "N/A", user.displayName ?? "N/A");
+      debugPrint(
+          "THIS THE REGISTER USER ID AND NAME --> ID(${user.id ?? ""}) && NAME(${user.displayName ?? ""}).");
       // ignore: unnecessary_null_comparison
       if (user != null) {
         emit(AuthenticationSuccessState(user));
@@ -63,7 +68,10 @@ class AuthenticationBloc
         event.password,
         // profileImageUrl
       );
-
+      await ZegoService.updateUser(
+          user?.id ?? "N/A", user?.displayName ?? "N/A");
+      debugPrint(
+          "THIS THE LOGIN USER ID AND NAME --> ID(${user?.id ?? ""}) && NAME(${user?.displayName ?? ""}).");
       if (user != null) {
         emit(AuthenticationSuccessState(user));
       } else {

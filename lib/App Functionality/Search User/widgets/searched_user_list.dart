@@ -1,11 +1,11 @@
 import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/view/chat_screen.dart';
 import 'package:chat_app_bloc/App%20Functionality/Search%20User/model/searched_user_model.dart';
+import 'package:chat_app_bloc/App%20Functionality/Search%20User/widgets/user_profile_picture.dart';
 import 'package:chat_app_bloc/Constent/app_color.dart';
 import 'package:chat_app_bloc/Service/analytics_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SearchedUserList extends StatefulWidget {
@@ -79,7 +79,7 @@ class _SearchedUserListState extends State<SearchedUserList> {
               receiverName: widget.searchedUser.displayName,
               senderUid: mainUserid,
               receiverUid: widget.searchedUser.id,
-              useremail: widget.searchedUser.email,
+              userEmail: widget.searchedUser.email,
               mobileNumber: widget.searchedUser.mobileNumber,
               receiverFCM: widget.searchedUser.receiverFCm,
               profileImage: widget.searchedUser.profileImage,
@@ -115,18 +115,78 @@ class _SearchedUserListState extends State<SearchedUserList> {
                       children: [
                         Row(
                           children: [
-                            // ClipOval(
-                            //   child: Image.memory(
-                            //     height: 40,
-                            //     width: 40,
-                            //     base64Decode(widget.searchedUser.profileImage),
-                            //     fit: BoxFit.cover,
+                            ProfileAvatar(
+                                base64Image: widget.searchedUser.profileImage),
+
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     border: Border.all(),
+                            //     shape: BoxShape.circle,
+                            //   ),
+                            //   width: 40,
+                            //   height: 40,
+                            //   child: ClipOval(
+                            //     child: FutureBuilder<Uint8List>(
+                            //       future: Future.delayed(
+                            //           Duration(milliseconds: 100), () {
+                            //         return base64Decode(
+                            //             widget.searchedUser.profileImage);
+                            //       }),
+                            //       builder: (context, snapshot) {
+                            //         if (snapshot.connectionState ==
+                            //             ConnectionState.waiting) {
+                            //           return const Center(
+                            //             child: SizedBox(
+                            //               width: 20,
+                            //               height: 20,
+                            //               child: CircularProgressIndicator(
+                            //                   strokeWidth: 2),
+                            //             ),
+                            //           );
+                            //         } else if (snapshot.hasError) {
+                            //           return const Center(
+                            //               child: Icon(Icons.error));
+                            //         } else if (!snapshot.hasData) {
+                            //           return const FaIcon(
+                            //               FontAwesomeIcons.user);
+                            //         } else {
+                            //           return Image.memory(
+                            //             snapshot.data!,
+                            //             fit: BoxFit.cover,
+                            //             width: 40,
+                            //             height: 40,
+                            //             errorBuilder:
+                            //                 (context, error, stackTrace) {
+                            //               return const FaIcon(
+                            //                   FontAwesomeIcons.user);
+                            //             },
+                            //           );
+                            //         }
+                            //       },
+                            //     ),
                             //   ),
                             // ),
-                            const FaIcon(
-                              FontAwesomeIcons.user,
-                              size: 18,
-                            ),
+
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //       border: Border.all(), shape: BoxShape.circle),
+                            //   child: ClipOval(
+                            //     child: Image.memory(
+                            //       height: 40,
+                            //       width: 40,
+                            //       base64Decode(
+                            //           widget.searchedUser.profileImage),
+                            //       fit: BoxFit.cover,
+                            //       errorBuilder: (context, error, stackTrace) {
+                            //         return FaIcon(FontAwesomeIcons.user);
+                            //       },
+                            //     ),
+                            //   ),
+                            // ),
+                            // const FaIcon(
+                            //   FontAwesomeIcons.user,
+                            //   size: 18,
+                            // ),
                             const SizedBox(
                               width: 10,
                             ),

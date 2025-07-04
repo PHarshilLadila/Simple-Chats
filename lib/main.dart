@@ -1,5 +1,6 @@
 import 'package:chat_app_bloc/App%20Functionality/Auth/bloc/authentication_bloc.dart';
 import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/bloc/chat_screen_bloc.dart';
+import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/helper/call_service.dart';
 import 'package:chat_app_bloc/App%20Functionality/Contacts/bloc/contact_bloc.dart';
 import 'package:chat_app_bloc/App%20Functionality/Landing%20Page/bloc/landing_page_bloc.dart';
 import 'package:chat_app_bloc/App%20Functionality/Profile/bloc/profile_bloc.dart';
@@ -15,32 +16,45 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-/// This is the main application widget.
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+String currentUserId = '';
+String currentUserName = '';
+void getCurrentUserId() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  String? userid = pref.getString('userId');
+  String? userName = pref.getString('name');
+  currentUserId = userid ?? '';
+  currentUserName = userName ?? "";
+}
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  getCurrentUserId();
   await Firebase.initializeApp();
+  await ZegoService.updateUser(currentUserId, currentUserName);
+  debugPrint("user id =--> $currentUserId && user name  --> $currentUserName");
+  await ZegoService.init();
 
-  // SocketService();
   final firebaseApi = FirebaseApi();
   await firebaseApi.initNotification();
   final analyticsService = AnalyticsService();
   analyticsService.logAppOpen("App Open");
   await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
 
-  runApp(const MyApp());
+  runApp(MyApp(navigatorKey: navigatorKey));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final GlobalKey<NavigatorState> navigatorKey;
+
+  const MyApp({super.key, required this.navigatorKey});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
-
-/// This is the main application widget.
 
 class _MyAppState extends State<MyApp> {
   @override
@@ -86,13 +100,14 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: MaterialApp(
+        navigatorKey: widget.navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: AppColor.mainColor),
           useMaterial3: true,
         ),
-        home: const SplashScreen(),
+        home: SplashScreen(),
       ),
     );
   }

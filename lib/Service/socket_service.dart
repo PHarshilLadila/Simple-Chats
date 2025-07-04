@@ -8,8 +8,8 @@ class SocketService {
 
   void connect(String userId) {
     String socketUrl = Platform.isAndroid
-        ? "http://192.168.1.14:3000" // Use local IP
-        : "http://192.168.1.14:3000"; // Replace with your actual server IP
+        ? "http://192.168.1.9:3000" // Use local IP
+        : "http://192.168.1.9:3000"; // Replace with your actual server IP
 
     socket = IO.io(socketUrl, <String, dynamic>{
       "transports": ["websocket"],

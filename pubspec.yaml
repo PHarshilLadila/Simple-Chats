@@ -66,6 +66,10 @@ dependencies:
   flutter_lints: ^5.0.0
   country_pickers: ^3.0.1
   web_socket_channel: ^3.0.3
+  zego_uikit_prebuilt_call: ^4.17.3
+  zego_uikit_signaling_plugin: ^2.8.13
+  zego_express_engine: ^3.21.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
