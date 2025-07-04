@@ -42,3 +42,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 "assets/key/serviceAccountKey.json" 
+assets/key/serviceAccountKey.json
