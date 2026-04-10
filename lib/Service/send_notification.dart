@@ -94,63 +94,99 @@ class SendNotification {
     String senderUids,
     String receiverUids,
     String receiverFCMTokens,
-    // Map<String, dynamic> userMaps,
+    String senderProfileImages,
+    String senderEmails,
+    String senderMobileNumbers,
   ) async {
-    final accessToken = await getAccessToken();
+    try {
+      // Fetch receiver's settings
+      DocumentSnapshot receiverDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(receiverUids)
+          .get();
 
-    debugPrint("=> accesee tokens : $accessToken");
-    // Map<String, dynamic>? userMap;
+      bool isMessageNotification = true;
+      bool isCallNotification = true;
+      bool isNotificationSound = true;
+      bool isNotificationVibration = true;
 
-    // userMap = userMaps;
-
-    // FCM v1 URL
-    final Uri url = Uri.parse(
-        'https://fcm.googleapis.com/v1/projects/chat-app-bloc-d05a0/messages:send');
-
-    // chatScreen:
-    // (context) => const ChatScreen();
-
-    final Map<String, dynamic> notificationData = {
-      "message": {
-        "token": token,
-        "notification": {
-          "title": title,
-          "body": body,
-        },
-        "android": {
-          "priority": "HIGH",
-        },
-        "data": {
-          "click_action": "FLUTTER_NOTIFICATION_CLICK ",
-          "type": "chat",
-          "screen": "/chatScreen",
-          "chatId": chatIds,
-          "currentUserName": currentUserNames,
-          "senderName": senderNames,
-          "senderFCMToken": senderFCMTokens,
-          "senderUid": senderUids,
-          "receiverUid": receiverUids,
-          "receiverFCMToken": receiverFCMTokens,
-        },
+      if (receiverDoc.exists && receiverDoc.data() != null) {
+        final data = receiverDoc.data() as Map<String, dynamic>;
+        final settings = data['notificationSettings'] ?? {};
+        isMessageNotification = settings['message'] ?? true;
+        isCallNotification = settings['call'] ?? true;
+        isNotificationSound = settings['sound'] ?? true;
+        isNotificationVibration = settings['vibration'] ?? true;
       }
-    };
 
-    final response = await http.post(
-      url,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization":
-            "Bearer $accessToken", // Use Bearer token for authentication
-      },
-      body: jsonEncode(notificationData),
-    );
+      // Check if this is a call or message (simplified check)
+      bool isCall = title.toLowerCase().contains("call") ||
+          body.toLowerCase().contains("call");
 
-    if (response.statusCode == 200) {
-      debugPrint('=> Notification sent successfully');
+      if (isCall && !isCallNotification) {
+        debugPrint("=> Call notification is disabled for receiver. Skipping.");
+        return;
+      }
 
-      debugPrint('=> Notification sent successfully to $token');
-    } else {
-      debugPrint('=> Failed to send notification: ${response.body}');
+      if (!isCall && !isMessageNotification) {
+        debugPrint(
+            "=> Message notification is disabled for receiver. Skipping.");
+        return;
+      }
+
+      final accessToken = await getAccessToken();
+
+      // FCM v1 URL
+      final Uri url = Uri.parse(
+          'https://fcm.googleapis.com/v1/projects/simple-chat-52a15/messages:send');
+
+      final Map<String, dynamic> notificationData = {
+        "message": {
+          "token": token,
+          "notification": {
+            "title": title,
+            "body": body,
+          },
+          "data": {
+            "type": isCall ? "call" : "chat",
+            "chatId": chatIds,
+            "senderUid": senderUids,
+            "senderName": senderNames,
+          },
+          "android": {
+            "priority": "HIGH",
+            "notification": {
+              "sound": isNotificationSound ? "default" : null,
+              "default_vibrate_timings": isNotificationVibration,
+              "default_sound": isNotificationSound,
+            },
+          },
+          "apns": {
+            "payload": {
+              "aps": {
+                "sound": isNotificationSound ? "default" : null,
+              }
+            }
+          }
+        }
+      };
+
+      final response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $accessToken",
+        },
+        body: jsonEncode(notificationData),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('=> Notification sent successfully to $token');
+      } else {
+        debugPrint('=> Failed to send notification: ${response.body}');
+      }
+    } catch (e) {
+      debugPrint("=> Error in sendNotificationToUser: $e");
     }
   }
 }

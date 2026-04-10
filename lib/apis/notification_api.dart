@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/view/chat_screen.dart';
+import 'package:chat_app_bloc/functionality/chat_section/view/chat_screen.dart';
 import 'package:chat_app_bloc/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class FirebaseApi {
 
   Future<void> initNotification() async {
     const AndroidInitializationSettings androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('notification_icon');
 
     const InitializationSettings initializationSettings =
         InitializationSettings(android: androidSettings);
@@ -88,6 +88,7 @@ class FirebaseApi {
       channelDescription: 'This is the default notification channel',
       importance: Importance.high,
       priority: Priority.high,
+      icon: 'notification_icon',
     );
 
     const NotificationDetails notificationDetails =

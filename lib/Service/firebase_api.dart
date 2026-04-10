@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:chat_app_bloc/App%20Functionality/Chat%20Screen/view/chat_screen.dart';
+import 'package:chat_app_bloc/functionality/chat_section/view/chat_screen.dart';
 import 'package:chat_app_bloc/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class FirebaseApi {
 
   Future<void> initNotification() async {
     const AndroidInitializationSettings androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('notification_icon');
 
     const InitializationSettings initializationSettings =
         InitializationSettings(android: androidSettings);
@@ -82,13 +82,14 @@ class FirebaseApi {
       channelDescription: 'This is the default notification channel',
       importance: Importance.high,
       priority: Priority.high,
+      icon: 'notification_icon',
     );
 
     const NotificationDetails notificationDetails =
         NotificationDetails(android: androidDetails);
 
     await localNotificationsPlugin.show(
-      0,
+      DateTime.now().microsecondsSinceEpoch % 1000000,
       title,
       body,
       notificationDetails,
@@ -104,46 +105,24 @@ class FirebaseApi {
     if (notificationData.containsKey('type') &&
         notificationData['type'] == 'chat') {
       if (notificationData.containsKey('senderUid')) {
-        String userId = notificationData['senderUid'];
-        debugPrint("debugPrint this is the user id =>=>=>=>=> $userId");
-        // navigatorKey.currentState
-        //     ?.pushNamed(AppRoute.chatScreen, arguments: {'senderUid': userId});
-        Map<String, dynamic>? userMap;
-        if (notificationData.containsKey('usermap')) {
-          userMap = jsonDecode(notificationData['usermap']);
-        }
-        debugPrint('debugPrint this is the usemap =>..=> $userMap');
+        String senderUid = notificationData['senderUid'] ?? "N/A";
+        String chatId = notificationData['chatId'] ?? "ChatId";
 
-        // var usermapdata = notificationData['usermap'];
-        // var mainusermapdata = jsonEncode(usermapdata);
+        debugPrint("debugPrint this is the user id =>=>=>=>=> $senderUid");
+
         navigatorKey.currentState!.push(
           MaterialPageRoute(
             builder: (context) => ChatScreen(
-              chatId: notificationData['chatId'] ?? "ChatId",
-              // replace current user name to sender name
-              currentUserName: isTapped
-                  ? notificationData['senderName'] ?? "N/A"
-                  : notificationData['currentUserName'] ?? "N/A",
-              // message: message.notification?.body ?? "N/A",
-
-              receiverUid: isTapped
-                  ? notificationData['receiverUid'] ?? "N/A"
-                  : notificationData['senderUid'] ?? "N/A",
-              senderUid: isTapped
-                  ? notificationData['senderUid'] ?? "N/A"
-                  : notificationData['receiverUid'] ?? "N/A",
-
-              receiverFCM: isTapped
-                  ? notificationData['senderFCMToken'] ?? "N/A"
-                  : notificationData['receiverFCMToken'] ?? "N/A",
-
-              receiverName: isTapped
-                  ? notificationData['receiverFCMToken'] ?? "N/A"
-                  : notificationData['senderFCMToken'] ?? "N/A",
-              // senderName: message.notification?.title ?? "User",
-              senderName: notificationData['currentUserName'] ?? "N/A",
-
-              // userMap: userMap,
+              chatId: chatId,
+              currentUserName: currentUserName,
+              senderName: currentUserName,
+              receiverName: notificationData['senderName'] ?? "N/A",
+              senderUid: currentUserId,
+              receiverUid: senderUid,
+              userEmail: notificationData['senderEmail'] ?? "N/A",
+              mobileNumber: notificationData['senderMobile'] ?? "N/A",
+              receiverFCM: notificationData['senderFCMToken'] ?? "N/A",
+              profileImage: notificationData['senderProfile'] ?? "",
             ),
           ),
         );

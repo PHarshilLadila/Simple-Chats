@@ -1,5 +1,7 @@
-import 'package:chat_app_bloc/App%20Functionality/Auth/model/user_model.dart';
-import 'package:chat_app_bloc/Service/send_notification.dart';
+// ignore_for_file: unnecessary_null_comparison
+
+import 'package:chat_app_bloc/functionality/Auth/model/user_model.dart';
+import 'package:chat_app_bloc/service/send_notification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -32,7 +34,6 @@ class AuthService {
     await prefs.setString("fcmToken", token!);
     debugPrint(
         "==================> FCMTOKEN ================> ${prefs.getString('fcmToken')}");
-    // ignore: unnecessary_null_comparison
     if (token != null) {
       await sendNotification.sendFCMTokenToUser(userId, token);
     }

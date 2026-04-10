@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "406869468504",
-    "project_id": "chat-app-bloc-d05a0",
-    "storage_bucket": "chat-app-bloc-d05a0.firebasestorage.app"
+    "project_number": "128540763642",
+    "firebase_url": "https://simple-chat-52a15-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "simple-chat-52a15",
+    "storage_bucket": "simple-chat-52a15.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:406869468504:android:3915c333958823d5bf712d",
+        "mobilesdk_app_id": "1:128540763642:android:236e0053e7a2e4886c3043",
         "android_client_info": {
           "package_name": "com.example.chat_app_bloc"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB9euhhLEKWWL92BqVo25h5kZwBhVpSw04"
+          "current_key": "AIzaSyDJf93qA0I0XSxNj3JhQ9Spi8ZhGozc2cw"
         }
       ],
       "services": {
