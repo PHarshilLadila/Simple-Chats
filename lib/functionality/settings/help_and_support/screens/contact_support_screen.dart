@@ -1,15 +1,15 @@
+// ignore_for_file: prefer_final_fields, deprecated_member_use, use_build_context_synchronously
+
 import 'package:chat_app_bloc/app_widget/app_snackbar.dart';
 import 'package:chat_app_bloc/functionality/settings/help_and_support/models/contact_support_model.dart';
 import 'package:chat_app_bloc/utils/constent/app_color.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:intl/intl.dart';
 
 class ContactSupportScreen extends StatefulWidget {
-  const ContactSupportScreen({Key? key}) : super(key: key);
+  const ContactSupportScreen({super.key});
 
   @override
   State<ContactSupportScreen> createState() => _ContactSupportScreenState();
@@ -534,7 +534,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
     }
   }
 
-  Future<void> _addAttachment() async {
+  Future<void> addAttachment() async {
     // Implement file picker here
     setState(() {
       _attachments

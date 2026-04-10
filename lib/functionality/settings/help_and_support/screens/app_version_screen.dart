@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages, deprecated_member_use, use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:chat_app_bloc/app_widget/app_snackbar.dart';
@@ -8,10 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:intl/intl.dart';
 
 class AppVersionScreen extends StatefulWidget {
-  const AppVersionScreen({Key? key}) : super(key: key);
+  const AppVersionScreen({super.key});
 
   @override
   State<AppVersionScreen> createState() => _AppVersionScreenState();
@@ -364,7 +365,7 @@ class _AppVersionScreenState extends State<AppVersionScreen> {
     );
   }
 
-  Widget _buildVersionHistoryCard() {
+  Widget buildVersionHistoryCard() {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
@@ -558,7 +559,7 @@ class _AppVersionScreenState extends State<AppVersionScreen> {
 
       String storeUrl = Platform.isAndroid
           ? 'https://play.google.com/store/apps/details?id=$packageName'
-          : 'https://apps.apple.com/app/id${packageName}';
+          : 'https://apps.apple.com/app/id$packageName';
 
       if (await canLaunchUrl(Uri.parse(storeUrl))) {
         await launchUrl(Uri.parse(storeUrl));

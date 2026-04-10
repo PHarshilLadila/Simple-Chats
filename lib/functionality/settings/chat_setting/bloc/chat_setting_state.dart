@@ -42,7 +42,6 @@
 //       ];
 // }
 
-import 'package:chat_app_bloc/functionality/settings/chat_setting/bloc/chat_setting_event.dart';
 import 'package:chat_app_bloc/functionality/settings/help_and_support/models/support_model.dart';
 import 'package:equatable/equatable.dart';
 

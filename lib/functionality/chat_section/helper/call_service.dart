@@ -135,7 +135,6 @@ class ZegoService {
 }
 
 //--
-// ignore_for_file: deprecated_member_use
 
 // import 'package:chat_app_bloc/main.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';

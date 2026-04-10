@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:chat_app_bloc/utils/constent/app_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

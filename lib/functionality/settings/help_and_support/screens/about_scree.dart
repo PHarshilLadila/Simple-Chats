@@ -1,16 +1,14 @@
-import 'package:chat_app_bloc/app_widget/app_snackbar.dart';
+// ignore_for_file: depend_on_referenced_packages, deprecated_member_use, use_build_context_synchronously
+
 import 'package:chat_app_bloc/functionality/settings/help_and_support/models/app_version_model.dart';
 import 'package:chat_app_bloc/service/app_version_service.dart';
-import 'package:chat_app_bloc/utils/constent/app_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io';
 
 class AboutScreen extends StatefulWidget {
-  const AboutScreen({Key? key}) : super(key: key);
+  const AboutScreen({super.key});
 
   @override
   State<AboutScreen> createState() => _AboutScreenState();
@@ -326,7 +324,7 @@ class _AboutScreenState extends State<AboutScreen> {
     );
   }
 
-  Widget _buildLegalInfo() {
+  Widget buildLegalInfo() {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(
@@ -336,25 +334,25 @@ class _AboutScreenState extends State<AboutScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            _buildLegalButton(
+            buildLegalButton(
               icon: Icons.description,
               title: 'Terms of Service',
               onTap: () => _showTermsDialog(),
             ),
             const Divider(),
-            _buildLegalButton(
+            buildLegalButton(
               icon: Icons.privacy_tip,
               title: 'Privacy Policy',
               onTap: () => _showPrivacyDialog(),
             ),
             const Divider(),
-            _buildLegalButton(
+            buildLegalButton(
               icon: Icons.security,
               title: 'Security Policy',
               onTap: () => _showSecurityDialog(),
             ),
             const Divider(),
-            _buildLegalButton(
+            buildLegalButton(
               icon: Icons.copyright,
               title: 'Open Source Licenses',
               onTap: () => _showLicensesDialog(),
@@ -365,7 +363,7 @@ class _AboutScreenState extends State<AboutScreen> {
     );
   }
 
-  Widget _buildLegalButton({
+  Widget buildLegalButton({
     required IconData icon,
     required String title,
     required VoidCallback onTap,

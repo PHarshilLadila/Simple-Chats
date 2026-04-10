@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:chat_app_bloc/app_widget/app_appbar.dart';
 import 'package:chat_app_bloc/app_widget/app_snackbar.dart';
 import 'package:chat_app_bloc/functionality/settings/chat_setting/bloc/chat_setting_bloc.dart';

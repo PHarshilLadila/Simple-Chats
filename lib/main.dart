@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages, deprecated_member_use
+
 import 'dart:io';
 
 import 'package:chat_app_bloc/functionality/Auth/bloc/authentication_bloc.dart';

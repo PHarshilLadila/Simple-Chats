@@ -1,8 +1,11 @@
+// ignore_for_file: prefer_final_fields
+
 import 'dart:async';
 
 import 'package:chat_app_bloc/functionality/settings/help_and_support/models/support_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'chat_setting_event.dart';
@@ -291,7 +294,7 @@ class ChatSettingBloc extends Bloc<ChatSettingEvent, ChatSettingState> {
         'hasUnreadMessages': false,
       });
     } catch (e) {
-      print('Error marking messages as read: $e');
+      debugPrint('Error marking messages as read: $e');
     }
   }
 

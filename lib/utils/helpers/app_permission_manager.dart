@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:chat_app_bloc/app_widget/app_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';

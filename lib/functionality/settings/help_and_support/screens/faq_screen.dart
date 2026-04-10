@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:chat_app_bloc/app_widget/app_appbar.dart';
 import 'package:chat_app_bloc/app_widget/app_snackbar.dart';
 import 'package:chat_app_bloc/utils/constent/app_color.dart';
@@ -8,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 
 class FAQScreen extends StatefulWidget {
-  const FAQScreen({Key? key}) : super(key: key);
+  const FAQScreen({super.key});
 
   @override
   State<FAQScreen> createState() => _FAQScreenState();
@@ -309,7 +311,7 @@ class FAQ {
 class FAQItem extends StatefulWidget {
   final FAQ faq;
 
-  const FAQItem({Key? key, required this.faq}) : super(key: key);
+  const FAQItem({super.key, required this.faq});
 
   @override
   State<FAQItem> createState() => _FAQItemState();

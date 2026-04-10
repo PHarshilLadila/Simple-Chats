@@ -121,8 +121,9 @@ class _AllImagesState extends State<AllImages> {
               for (var doc in imageDocs) {
                 Map<String, dynamic> messages =
                     doc.data() as Map<String, dynamic>;
-                if (messages['time'] == null)
+                if (messages['time'] == null) {
                   continue; // Skip messages with no timestamp
+                }
                 Timestamp timestamp = messages['time'] as Timestamp;
                 String formattedDate =
                     DateFormat('yyyy-MM-dd').format(timestamp.toDate());

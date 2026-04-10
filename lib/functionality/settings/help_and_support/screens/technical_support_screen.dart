@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
+
 import 'package:chat_app_bloc/functionality/settings/chat_setting/bloc/chat_setting_bloc.dart';
 import 'package:chat_app_bloc/functionality/settings/chat_setting/bloc/chat_setting_event.dart';
 import 'package:chat_app_bloc/functionality/settings/chat_setting/bloc/chat_setting_state.dart';
@@ -10,7 +12,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 class TechnicalSupportScreen extends StatefulWidget {
-  const TechnicalSupportScreen({Key? key}) : super(key: key);
+  const TechnicalSupportScreen({super.key});
 
   @override
   State<TechnicalSupportScreen> createState() => _TechnicalSupportScreenState();
@@ -1399,8 +1401,7 @@ class HelpItem {
 class CreateTicketDialog extends StatefulWidget {
   final Function(String, String, SupportCategory, SupportPriority) onSubmit;
 
-  const CreateTicketDialog({Key? key, required this.onSubmit})
-      : super(key: key);
+  const CreateTicketDialog({super.key, required this.onSubmit});
 
   @override
   State<CreateTicketDialog> createState() => _CreateTicketDialogState();
@@ -1634,7 +1635,7 @@ class _CreateTicketDialogState extends State<CreateTicketDialog> {
 class TicketDetailsScreen extends StatefulWidget {
   final SupportTicket ticket;
 
-  const TicketDetailsScreen({Key? key, required this.ticket}) : super(key: key);
+  const TicketDetailsScreen({super.key, required this.ticket});
 
   @override
   State<TicketDetailsScreen> createState() => _TicketDetailsScreenState();
@@ -2083,8 +2084,7 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
 class CreateTicketBottomSheet extends StatefulWidget {
   final Function(String, String, SupportCategory, SupportPriority) onSubmit;
 
-  const CreateTicketBottomSheet({Key? key, required this.onSubmit})
-      : super(key: key);
+  const CreateTicketBottomSheet({super.key, required this.onSubmit});
 
   @override
   State<CreateTicketBottomSheet> createState() =>
