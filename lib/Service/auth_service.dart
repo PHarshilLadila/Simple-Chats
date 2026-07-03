@@ -14,6 +14,23 @@ class AuthService {
   static final FirebaseMessaging messaging = FirebaseMessaging.instance;
   final SendNotification sendNotification = SendNotification();
   String? token = "";
+  Future<String?> _getFcmTokenSafe() async {
+    try {
+      return await messaging.getToken();
+    } catch (e) {
+      debugPrint('=> Failed to get FCM token: $e');
+      return null;
+    }
+  }
+
+  Future<void> _deleteFcmTokenSafe() async {
+    try {
+      await messaging.deleteToken();
+    } catch (e) {
+      debugPrint('=> Failed to delete FCM token: $e');
+    }
+  }
+
   Future<void> saveUserLocally(UserModel user) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('userId', user.id!);
@@ -29,12 +46,12 @@ class AuthService {
 
     if (userId == null) return null;
 
-    await messaging.deleteToken();
-    String? token = await messaging.getToken();
-    await prefs.setString("fcmToken", token!);
-    debugPrint(
-        "==================> FCMTOKEN ================> ${prefs.getString('fcmToken')}");
+    await _deleteFcmTokenSafe();
+    String? token = await _getFcmTokenSafe();
     if (token != null) {
+      await prefs.setString("fcmToken", token!);
+      debugPrint(
+          "==================> FCMTOKEN ================> ${prefs.getString('fcmToken')}");
       await sendNotification.sendFCMTokenToUser(userId, token);
     }
     var localUserData = UserModel(
@@ -73,15 +90,15 @@ class AuthService {
       final User? firebaseUser = userCredential.user;
 
       if (firebaseUser != null) {
-        await messaging.deleteToken();
+        await _deleteFcmTokenSafe();
 
-        token = await messaging.getToken();
-        await prefs.setString("fcmToken", token!);
-        debugPrint("===> FCMTOKEN ===> ${prefs.getString('fcmToken')}");
-
+        token = await _getFcmTokenSafe();
         if (token != null) {
+          await prefs.setString("fcmToken", token!);
+          debugPrint("===> FCMTOKEN ===> ${prefs.getString('fcmToken')}");
+
           debugPrint('=> SEND FCM TOKEN TO USER: $token');
-          sendNotification.sendFCMTokenToUser(firebaseUser.uid, token ?? '');
+          sendNotification.sendFCMTokenToUser(firebaseUser.uid, token!);
         }
 
         await firestore.collection('users').doc(firebaseUser.uid).set({
@@ -122,19 +139,15 @@ class AuthService {
             await firestore.collection('users').doc(firebaseUser.uid).get();
 
         if (userDoc.exists) {
-          await messaging.deleteToken();
-          token = await messaging.getToken();
-          await prefs.setString("fcmToken", token!);
-          debugPrint(
-              "==================> FCMTOKEN ================> ${prefs.getString('fcmToken')}");
+          await _deleteFcmTokenSafe();
+          token = await _getFcmTokenSafe();
           if (token != null) {
-            //      await FirebaseFirestore.instance
-            // .collection('users')
-            // .doc(firebaseUser.uid)
-            // .update({'fcmToken': token});
+            await prefs.setString("fcmToken", token!);
+            debugPrint(
+                "==================> FCMTOKEN ================> ${prefs.getString('fcmToken')}");
 
             debugPrint('=> SEND FCM TOKEN TO USER: $token');
-            sendNotification.sendFCMTokenToUser(firebaseUser.uid, token ?? '');
+            sendNotification.sendFCMTokenToUser(firebaseUser.uid, token!);
           }
 
           Map<String, dynamic> userData =

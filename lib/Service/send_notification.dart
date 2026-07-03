@@ -60,6 +60,10 @@ class SendNotification {
 
   Future<void> sendFCMTokenToUser(String userId, String fcmToken) async {
     try {
+      if (userId.isEmpty || userId == 'N/A') {
+        debugPrint('=> Skipping sendFCMTokenToUser: invalid userId: $userId');
+        return;
+      }
       debugPrint("=> Attempting to send FCM Token...");
       debugPrint("=> UserID: $userId");
       debugPrint("=> FCM Token: $fcmToken");

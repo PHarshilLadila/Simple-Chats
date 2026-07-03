@@ -41,9 +41,15 @@ class FirebaseApi {
       debugPrint('User declined or has not accepted notifications');
     }
 
-    String? token = await messaging.getToken();
-    if (token != null) {
-      debugPrint('FCM Token >> : $token');
+    String? token;
+    try {
+      token = await messaging.getToken();
+      if (token != null) {
+        debugPrint('FCM Token >> : $token');
+      }
+    } catch (e) {
+      debugPrint('=> Failed to get FCM token in initNotification: $e');
+      token = null;
     }
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
