@@ -1,4 +1,4 @@
-# chat_app_bloc
+# Messaging App
 
 A new Flutter project.
 
